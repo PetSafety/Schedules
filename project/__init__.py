@@ -1,22 +1,27 @@
-from flask import Flask, jsonify
-from flask_restful import Resource, Api
+import os
+
+from flask import Flask
+
+from database_singleton import Singleton
+from project.api.views import example_blueprint
 
 
 # instantiate the app
-app = Flask(__name__)
+def create_app(script_info=None):
+    # Instantiate the app
+    app = Flask(__name__)
 
-api = Api(app)
+    # Set Configuration
+    app_settings = os.getenv("APP_SETTINGS")
+    app.config.from_object(app_settings)
 
-# set config
-app.config.from_object('project.config.DevelopmentConfig')
+    db = Singleton().database_connection()
+    migrate = Singleton().migration()
 
+    db.init_app(app)
+    migrate.init_app(app, db)
 
-class UsersPing(Resource):
-    def get(self):
-        return {
-        'status': 'success',
-        'message': 'pong!'
-    }
+    # register blueprints
+    app.register_blueprint(example_blueprint, url_prefix="/example")
 
-
-api.add_resource(UsersPing, '/users/ping') 
+    return app
