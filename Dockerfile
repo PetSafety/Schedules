@@ -13,6 +13,7 @@ RUN apk update && \
 
 # Dealing with requirements
 RUN pip install --upgrade pip
+RUN pip install Flask-SQLAlchemy
 COPY ./requirements.txt /app/requirements.txt
 RUN pip	install	-r	requirements.txt
 

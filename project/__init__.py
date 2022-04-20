@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 from database_singleton import Singleton
-from project.api.views import example_blueprint
+from project.api.views import transporte_blueprint
 
 
 # instantiate the app
@@ -22,6 +22,6 @@ def create_app(script_info=None):
     migrate.init_app(app, db)
 
     # register blueprints
-    app.register_blueprint(example_blueprint, url_prefix="/example")
+    app.register_blueprint(transporte_blueprint)
 
     return app
