@@ -72,6 +72,7 @@ CREATE TABLE TRANSPORTE (
     idTransporte SERIAL NOT NULL,
     nomePet VARCHAR(40) NOT NULL,
     tipoPet VARCHAR(10) NOT NULL,
+    dataViagem timestamp NOT NULL,
     CONSTRAINT tipoPet_check CHECK (tipoPet IN ('Cachorro', 'Gato')),
     origem VARCHAR(40) NOT NULL,
     destino VARCHAR(40) NOT NULL,
