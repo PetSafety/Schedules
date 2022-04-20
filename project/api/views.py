@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc
+import sys
 
-from project.api.models import Transporte, Usuario, Pet
+from project.api.models import Transporte
 from project.api.models import db
 
 transporte_blueprint = Blueprint("transporte", __name__)
@@ -9,23 +10,23 @@ transporte_blueprint = Blueprint("transporte", __name__)
 
 @transporte_blueprint.route("/schedule", methods=["POST"])
 def create_schedule():
-    post_data = request.get_json()
+    schedule_data = request.get_json()
 
     error_response = {"status": "fail", "message": "Invalid payload."}
 
-    if not post_data:
+    if not schedule_data:
         return jsonify(error_response), 400
 
-    nomePet = post_data("nomePet")
-    tipoPet = post_data("tipoPet")
-    dataViagem = post_data("dataViagem")
-    origem = post_data("origem")
-    destino = post_data("destino")
-    usuarioid = post_data("usuarioid")
-    relatorioid = post_data("relatorioid")
+    nomePet = schedule_data.get("nomePet")
+    tipoPet = schedule_data.get("tipoPet")
+    dataViagem = schedule_data.get("dataViagem")
+    origem = schedule_data.get("origem")
+    destino = schedule_data.get("destino")
+    usuarioid = schedule_data.get("usuarioid")
+    relatorioid = schedule_data.get("relatorioid")
 
-    transporte = Transporte(    
-        nomePet,
+    transporte = Transporte(   
+        nomePet, 
         tipoPet,
         dataViagem,
         origem,

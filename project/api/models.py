@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 class Usuario(db.Model):
     __tablename__ = "usuario"
-    usuarioid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    idusuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nomeCompleto = db.Column(db.Text, nullable=False)
     cpf = db.Column(db.Integer, nullable=False)
     telefone = db.Column(db.Integer, nullable=False)
@@ -24,7 +24,7 @@ class Usuario(db.Model):
 
     def to_json(self):
         return {
-            "usuarioid": self.usuarioid,
+            "idusuario": self.idusuario,
             "nomeCompleto": self.nomeCompleto,
             "cpf": self.cpf
         }
@@ -71,7 +71,7 @@ class Pet(db.Model):
     petid = db.Column(db.Integer, primary_key=True, autoincrement=True)
     dataNascimento = db.Column(db.Date, nullable=False)
     nomePet = db.Column(db.Text, nullable=False)
-    idusuario = db.Column(db.SmallInteger, db.ForeignKey("usuario.usuarioid"))
+    idusuario = db.Column(db.SmallInteger, db.ForeignKey("usuario.idusuario"))
     tipopetid = db.Column(db.SmallInteger, db.ForeignKey("tipopet.tipopet"))
     racaid = db.Column(db.SmallInteger, db.ForeignKey("raca.racaid"))
 
@@ -120,7 +120,7 @@ class Cabine(db.Model):
 
 class Relatorio(db.Model):
     __tablename__ = "relatorio"
-    relatorioid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    idrelatorio = db.Column(db.Integer, primary_key=True, autoincrement=True)
     dadosRelatorio = db.Column(postgresql.JSON)
 
     def __init__(
@@ -131,7 +131,7 @@ class Relatorio(db.Model):
 
     def to_json(self):
         return {
-            "relatorioid": self.relatorioid,
+            "idrelatorio": self.idrelatorio,
             "dadosRelatorio": self.dadosRelatorio
         }
 
@@ -139,41 +139,41 @@ class Relatorio(db.Model):
 class Transporte(db.Model):
     __tablename__ = "transporte"
 
-    transporteid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nomePet = db.Column(db.Text, nullable=False)
-    tipoPet = db.Column(db.Enum('CACHORRO', 'GATO'), nullable=False)
+    idtransporte = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nomepet = db.Column(db.Text, nullable=False)
+    tipopet = db.Column(db.Enum('Cachorro', 'Gato'), nullable=False)
     dataViagem = db.Column(db.Date, nullable=False)
     origem = db.Column(db.Text, nullable=False)
     destino = db.Column(db.Text, nullable=False)
-    usuarioid = db.Column(db.Integer, db.ForeignKey("usuario.usuarioid"))
-    relatorioid = db.Column(db.Integer, db.ForeignKey("usuario.usuarioid"))
+    idusuario = db.Column(db.Integer, db.ForeignKey("usuario.idusuario"))
+    idrelatorio = db.Column(db.Integer, db.ForeignKey("relatorio.idrelatorio"))
 
     def __init__(
             self,
-            nomePet,
-            tipoPet,
+            nomepet,
+            tipopet,
             dataViagem,
             origem,
             destino,
-            usuarioid,
-            relatorioid
+            idusuario,
+            idrelatorio
     ):
-        self.nomePet = nomePet
-        self.tipoPet = tipoPet
+        self.nomepet = nomepet
+        self.tipopet = tipopet
         self.dataViagem = dataViagem
         self.origem = origem
         self.destino = destino
-        self.usuarioid = usuarioid
-        self.relatorioid = relatorioid
+        self.idusuario = idusuario
+        self.idrelatorio = idrelatorio
 
     def to_json(self):
         return {
-            "transporteid": self.transporteid,
-            "nomePet": self.nomePet,
-            "tipoPet": self.tipoPet,
+            "idtransporte": self.idtransporte,
+            "nomepet": self.nomepet,
+            "tipopet": self.tipopet,
             "dataViagem": self.dataViagem,
             "origem": self.origem,
             "destino": self.destino,
-            "usuarioid": self.usuarioid,
-            "relatorioid": self.relatorioid
+            "idusuario": self.idusuario,
+            "idrelatorio": self.idrelatorio
         }
