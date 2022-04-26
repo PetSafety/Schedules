@@ -91,4 +91,5 @@ CREATE TABLE DADOS_EMBARCADO (
     temperatura VARCHAR(500) NOT NULL,
     ruido VARCHAR(500) NOT NULL,
     video  VARCHAR(1000) NOT NULL,
+    idCaixa INT NOT NULL,
 );
